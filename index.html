@@ -1,1 +1,532 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Атлантида — Затерянная цивилизация</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --gold:#c9a24a; --deep:#03111f; --sea:#062a44; --teal:#0d4f63; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Inter',sans-serif; background:var(--deep); color:#dbe7ef; overflow-x:hidden; }
+  .serif { font-family:'Cormorant Garamond',serif; }
+  .gold { color:var(--gold); }
+  .hero { background:radial-gradient(ellipse at 50% 120%, #0f6a7a 0%, #062a44 35%, #03111f 75%); position:relative; }
+  .hero::after { content:""; position:absolute; inset:0; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"); pointer-events:none; }
+  .ray { position:absolute; top:-20%; width:140px; height:140%; background:linear-gradient(to bottom, rgba(201,162,74,0.0), rgba(120,200,220,0.08), rgba(201,162,74,0)); transform:skewX(-15deg); filter:blur(14px); animation:sway 9s ease-in-out infinite alternate; }
+  @keyframes sway { from{transform:skewX(-15deg) translateX(0);opacity:.5} to{transform:skewX(-10deg) translateX(60px);opacity:1} }
+  .bubble { position:absolute; bottom:-40px; border-radius:50%; border:1px solid rgba(160,220,240,.35); background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), rgba(255,255,255,.02)); animation:rise linear infinite; }
+  @keyframes rise { to { transform:translateY(-110vh) translateX(30px); opacity:0; } }
+  .card { background:linear-gradient(160deg, rgba(13,79,99,.35), rgba(6,42,68,.25)); border:1px solid rgba(201,162,74,.18); backdrop-filter:blur(6px); transition:.35s; }
+  .card:hover { border-color:rgba(201,162,74,.55); transform:translateY(-4px); box-shadow:0 20px 50px -20px rgba(201,162,74,.3); }
+  .divider { height:1px; background:linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+  .timeline::before { content:""; position:absolute; left:50%; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, transparent, var(--gold), transparent); transform:translateX(-50%); }
+  @media(max-width:768px){ .timeline::before{ left:14px; } }
+  .ring { position:absolute; border-radius:50%; border:2px solid; }
+  .quote-mark { font-size:8rem; line-height:1; position:absolute; top:-2rem; left:-1rem; color:rgba(201,162,74,.15); font-family:'Cormorant Garamond',serif; }
+  .nav-link { position:relative; }
+  .nav-link::after { content:""; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--gold); transition:.3s; }
+  .nav-link:hover::after { width:100%; }
+  .tab-btn.active { background:var(--gold); color:var(--deep); }
+  .accordion-content { max-height:0; overflow:hidden; transition:max-height .5s ease; }
+  .wave { position:absolute; bottom:0; left:0; width:200%; height:80px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 80'%3E%3Cpath d='M0 40 Q150 0 300 40 T600 40 T900 40 T1200 40 V80 H0z' fill='%2303111f'/%3E%3C/svg%3E") repeat-x; background-size:1200px 80px; animation:wave 14s linear infinite; }
+  @keyframes wave { to { transform:translateX(-1200px); } }
+  ::-webkit-scrollbar{width:8px} ::-webkit-scrollbar-track{background:#03111f} ::-webkit-scrollbar-thumb{background:#0d4f63;border-radius:4px}
+  .glow { text-shadow:0 0 30px rgba(201,162,74,.4); }
+</style>
+</head>
+<body>
 
+<!-- NAV -->
+<header id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-500">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#top" class="serif text-2xl font-bold tracking-widest gold">ΑΤΛΑΝΤΙΣ</a>
+    <nav class="hidden lg:flex gap-7 text-sm tracking-wide uppercase text-slate-300">
+      <a class="nav-link" href="#legend">Легенда</a>
+      <a class="nav-link" href="#plato">Платон</a>
+      <a class="nav-link" href="#city">Город</a>
+      <a class="nav-link" href="#culture">Культура</a>
+      <a class="nav-link" href="#timeline">Хронология</a>
+      <a class="nav-link" href="#theories">Гипотезы</a>
+      <a class="nav-link" href="#gallery">Галерея</a>
+      <a class="nav-link" href="#quiz">Викторина</a>
+    </nav>
+    <button id="burger" class="lg:hidden text-2xl gold">☰</button>
+  </div>
+  <div id="mobileMenu" class="hidden lg:hidden bg-[#03111f]/95 border-t border-[#c9a24a]/20 px-6 py-4 flex flex-col gap-3 text-sm uppercase tracking-wide">
+    <a href="#legend">Легенда</a><a href="#plato">Платон</a><a href="#city">Город</a><a href="#culture">Культура</a><a href="#timeline">Хронология</a><a href="#theories">Гипотезы</a><a href="#gallery">Галерея</a><a href="#quiz">Викторина</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="top" class="hero min-h-screen flex items-center justify-center text-center overflow-hidden">
+  <div class="ray" style="left:15%"></div>
+  <div class="ray" style="left:45%;animation-delay:-3s"></div>
+  <div class="ray" style="left:75%;animation-delay:-6s"></div>
+  <div id="bubbles"></div>
+  <div class="relative z-10 px-6 max-w-4xl">
+    <p class="tracking-[.5em] uppercase text-xs text-cyan-200/70 mb-6">Платон · «Тимей» и «Критий» · ок. 360 г. до н. э.</p>
+    <h1 class="serif text-6xl md:text-8xl lg:text-9xl font-bold gold glow leading-none">Атлантида</h1>
+    <p class="serif italic text-2xl md:text-3xl mt-6 text-slate-200">«За один день и бедственную ночь… остров Атлантида исчез, погрузившись в море»</p>
+    <p class="mt-8 text-slate-300/80 max-w-2xl mx-auto leading-relaxed">Величайшая загадка человечества. Остров-империя, что была могущественнее любого царства древности — и исчезла без следа за одни сутки. Миф, аллегория или память о реальной катастрофе?</p>
+    <div class="mt-10 flex flex-wrap gap-4 justify-center">
+      <a href="#legend" class="px-8 py-3 bg-[#c9a24a] text-[#03111f] font-semibold tracking-wide hover:bg-[#e0bb62] transition">Погрузиться</a>
+      <a href="#quiz" class="px-8 py-3 border border-[#c9a24a]/60 gold tracking-wide hover:bg-[#c9a24a]/10 transition">Пройти викторину</a>
+    </div>
+    <div class="mt-16 grid grid-cols-3 gap-6 max-w-xl mx-auto text-center">
+      <div><div class="serif text-4xl gold" data-count="9000">0</div><div class="text-xs uppercase tracking-wider text-slate-400 mt-1">лет до Солона</div></div>
+      <div><div class="serif text-4xl gold" data-count="10">0</div><div class="text-xs uppercase tracking-wider text-slate-400 mt-1">царей-близнецов</div></div>
+      <div><div class="serif text-4xl gold" data-count="1200">0</div><div class="text-xs uppercase tracking-wider text-slate-400 mt-1">боевых кораблей</div></div>
+    </div>
+  </div>
+  <div class="wave"></div>
+</section>
+
+<!-- LEGEND -->
+<section id="legend" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal text-center mb-16">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Глава I</p>
+      <h2 class="serif text-5xl md:text-6xl font-semibold">Легенда об исчезнувшем острове</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="reveal space-y-5 text-slate-300 leading-relaxed text-lg">
+        <p>Согласно Платону, Атлантида была огромным островом, лежащим «перед Геракловыми столпами» — за Гибралтарским проливом, в Атлантическом океане. Остров был больше Ливии и Азии, вместе взятых, и с него можно было переправиться на другие острова, а оттуда — на противолежащий материк.</p>
+        <p>Правили островом потомки бога Посейдона и смертной женщины Клейто. Посейдон влюбился в неё и, оберегая, окружил холм, где она жила, концентрическими кольцами воды и суши — двумя земляными и тремя водными. Так возникла столица с её легендарной планировкой.</p>
+        <p>Атланты были благородны и добродетельны, пока в них сохранялась божественная природа. Но когда она «растворилась» в человеческой, они возгордились, стали алчными и воинственными. Их державa напала на Афины и Египет — и была разбита афинянами.</p>
+        <p>Затем Зевс, «бог богов, блюдущий законы», решил наказать атлантов. В один день и одну бедственную ночь страшные землетрясения и наводнения поглотили и афинское войско, и весь остров Атлантида.</p>
+      </div>
+      <div class="reveal relative h-[420px] flex items-center justify-center">
+        <div id="ringsViz" class="relative w-80 h-80">
+          <div class="ring border-[#1f7f94]/60" style="inset:0;animation:spin 40s linear infinite"></div>
+          <div class="ring border-[#c9a24a]/50" style="inset:12%;"></div>
+          <div class="ring border-[#1f7f94]/60" style="inset:24%;"></div>
+          <div class="ring border-[#c9a24a]/50" style="inset:36%;"></div>
+          <div class="ring border-[#1f7f94]/60" style="inset:48%;"></div>
+          <div class="absolute inset-[38%] rounded-full bg-gradient-to-br from-[#c9a24a] to-[#8a6a22] shadow-[0_0_60px_rgba(201,162,74,.5)] flex items-center justify-center serif text-[#03111f] font-bold text-xl">Акрополь</div>
+          <div class="absolute left-1/2 top-1/2 w-[2px] h-1/2 bg-gradient-to-b from-[#c9a24a] to-transparent origin-top" style="transform:translateX(-50%)"></div>
+        </div>
+        <p class="absolute bottom-0 text-xs text-slate-400 text-center w-full">Схема концентрических колец столицы по описанию Платона</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATO -->
+<section id="plato" class="py-24 px-6 bg-gradient-to-b from-transparent via-[#062a44]/40 to-transparent">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal text-center mb-16">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Глава II</p>
+      <h2 class="serif text-5xl md:text-6xl font-semibold">Источники: Платон и цепь предания</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+      <p class="mt-6 text-slate-400 max-w-3xl mx-auto">Единственный первоисточник об Атлантиде — два диалога Платона. Ни один автор до него об острове не упоминает. Сам Платон утверждал, что история передавалась по цепочке от египетских жрецов.</p>
+    </div>
+    <div class="grid md:grid-cols-5 gap-4 mb-16 reveal">
+      <div class="card p-5 text-center"><div class="text-3xl mb-2">𓂀</div><h4 class="serif text-xl gold">Жрецы Саиса</h4><p class="text-sm text-slate-400 mt-2">Египетские хранители записей храма богини Нейт</p></div>
+      <div class="card p-5 text-center"><div class="text-3xl mb-2">⚖</div><h4 class="serif text-xl gold">Солон</h4><p class="text-sm text-slate-400 mt-2">Афинский законодатель, ок. 600 г. до н. э., услышал рассказ в Египте</p></div>
+      <div class="card p-5 text-center"><div class="text-3xl mb-2">📜</div><h4 class="serif text-xl gold">Дропид</h4><p class="text-sm text-slate-400 mt-2">Родственник и друг Солона, передал историю своему сыну</p></div>
+      <div class="card p-5 text-center"><div class="text-3xl mb-2">👴</div><h4 class="serif text-xl gold">Критий Старший</h4><p class="text-sm text-slate-400 mt-2">Пересказал внуку в возрасте 90 лет</p></div>
+      <div class="card p-5 text-center"><div class="text-3xl mb-2">🏛</div><h4 class="serif text-xl gold">Критий / Платон</h4><p class="text-sm text-slate-400 mt-2">Критий Младший рассказывает Сократу в диалогах</p></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="reveal card p-8 relative">
+        <span class="quote-mark">“</span>
+        <h3 class="serif text-3xl gold mb-4">«Тимей»</h3>
+        <p class="text-slate-300 leading-relaxed mb-4">Здесь история Атлантиды изложена кратко. Египетский жрец говорит Солону: «О Солон, Солон! Вы, эллины, вечно остаётесь детьми, и нет среди эллинов старца!» — ибо греки не помнят собственного славного прошлого.</p>
+        <p class="text-slate-300 leading-relaxed">Жрец рассказывает, как 9000 лет назад древние Афины отразили нашествие державы, шедшей «из Атлантического моря», и как затем остров погиб, а море в том месте стало несудоходным из-за ила.</p>
+      </div>
+      <div class="reveal card p-8 relative">
+        <span class="quote-mark">“</span>
+        <h3 class="serif text-3xl gold mb-4">«Критий»</h3>
+        <p class="text-slate-300 leading-relaxed mb-4">Незавершённый диалог, содержащий подробнейшее описание острова: его географии, столицы, храмов, армии, законов и царской власти. Текст обрывается на том месте, где Зевс собирает богов, чтобы объявить о наказании атлантов.</p>
+        <p class="text-slate-300 leading-relaxed">Именно «Критий» стал источником всех деталей, которые столетиями будоражат воображение: орихалк, кольца каналов, храм Посейдона, быки, десять царей.</p>
+      </div>
+    </div>
+    <div class="reveal mt-12 border-l-2 border-[#c9a24a] pl-6 py-2 max-w-3xl mx-auto">
+      <p class="serif italic text-xl text-slate-200">«Остров этот был больше Ливии и Азии, взятых вместе… Но позднее, когда пришёл срок для невиданных землетрясений и наводнений, за одни ужасные сутки вся ваша воинская сила была поглощена разверзнувшейся землёй; равным образом и Атлантида исчезла, погрузившись в пучину».</p>
+      <p class="text-sm gold mt-3">— Платон, «Тимей», 24e–25d</p>
+    </div>
+  </div>
+</section>
+
+<!-- CITY -->
+<section id="city" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal text-center mb-16">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Глава III</p>
+      <h2 class="serif text-5xl md:text-6xl font-semibold">Столица атлантов</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+    </div>
+    <div class="reveal flex flex-wrap justify-center gap-2 mb-10" id="cityTabs">
+      <button class="tab-btn active px-5 py-2 border border-[#c9a24a]/50 text-sm tracking-wide transition" data-tab="rings">Кольца и каналы</button>
+      <button class="tab-btn px-5 py-2 border border-[#c9a24a]/50 text-sm tracking-wide transition" data-tab="temple">Храм Посейдона</button>
+      <button class="tab-btn px-5 py-2 border border-[#c9a24a]/50 text-sm tracking-wide transition" data-tab="harbor">Гавани и флот</button>
+      <button class="tab-btn px-5 py-2 border border-[#c9a24a]/50 text-sm tracking-wide transition" data-tab="plain">Великая равнина</button>
+      <button class="tab-btn px-5 py-2 border border-[#c9a24a]/50 text-sm tracking-wide transition" data-tab="orichalcum">Орихалк</button>
+    </div>
+    <div class="reveal card p-8 md:p-12 min-h-[300px]">
+      <div class="tab-pane" data-pane="rings">
+        <h3 class="serif text-3xl gold mb-4">Концентрические кольца</h3>
+        <p class="text-slate-300 leading-relaxed mb-4">Центральный остров имел 5 стадиев (около 925 м) в диаметре. Его окружали три водных кольца шириной 1, 2 и 3 стадия и два земляных, равных по ширине соседним водным. Общий диаметр города вместе с кольцами составлял 27 стадиев — почти 5 км.</p>
+        <p class="text-slate-300 leading-relaxed mb-4">Атланты прорыли канал шириной 3 плетра (≈ 90 м), глубиной 100 футов и длиной 50 стадиев от моря до внешнего кольца, превратив его в гавань. Через земляные кольца были проложены туннели с мостами, по которым могли проходить триеры.</p>
+        <p class="text-slate-300 leading-relaxed">Стены внешнего кольца были покрыты медью, среднего — оловом, а стена акрополя сияла орихалком, «испускавшим огнистое блистание».</p>
+      </div>
+      <div class="tab-pane hidden" data-pane="temple">
+        <h3 class="serif text-3xl gold mb-4">Храм Посейдона и Клейто</h3>
+        <p class="text-slate-300 leading-relaxed mb-4">На акрополе стоял храм длиной в стадий (185 м) и шириной в три плетра. Снаружи он был выложен серебром, а акротерии — золотом. Внутри потолок был из слоновой кости, украшенной золотом, серебром и орихалком; стены, колонны и пол — сплошь в орихалке.</p>
+        <p class="text-slate-300 leading-relaxed mb-4">В центре возвышалась золотая статуя Посейдона на колеснице, правящего шестью крылатыми конями — столь огромная, что головой касалась потолка. Вокруг — сто нереид на дельфинах.</p>
+        <p class="text-slate-300 leading-relaxed">Снаружи храм окружали золотые статуи всех десяти царей и их жён. Рядом били два источника — тёплый и холодный — с купальнями для царей, граждан, женщин и даже лошадей.</p>
+      </div>
+      <div class="tab-pane hidden" data-pane="harbor">
+        <h3 class="serif text-3xl gold mb-4">Гавани и морская мощь</h3>
+        <p class="text-slate-300 leading-relaxed mb-4">Гавани были «полны кораблей и купцов, прибывших со всех концов», и день и ночь стоял «гул, шум и многоголосый говор». Внешнее водное кольцо было целиком отведено под судоверфи: в скалах были высечены доки для триер.</p>
+        <p class="text-slate-300 leading-relaxed mb-4">Военный флот Атлантиды насчитывал 1200 кораблей. Для снабжения на каждый из 60 000 участков равнины приходился определённый воинский контингент: шестая часть боевой колесницы, два коня с всадниками, тяжеловооружённые воины, лучники, пращники и четверо моряков.</p>
+        <p class="text-slate-300 leading-relaxed">Общая численность армии, по расчётам из текста, превышала миллион человек — цифра, явно служащая цели подчеркнуть величие державы.</p>
+      </div>
+      <div class="tab-pane hidden" data-pane="plain">
+        <h3 class="serif text-3xl gold mb-4">Великая равнина</h3>
+        <p class="text-slate-300 leading-relaxed mb-4">Город лежал на южном берегу огромной равнины размером 3000 × 2000 стадиев (≈ 555 × 370 км), окружённой горами, «превосходившими величием и красотой все нынешние». Горы защищали её от северных ветров.</p>
+        <p class="text-slate-300 leading-relaxed mb-4">Равнину опоясывал гигантский канал глубиной в плетр, шириной в стадий и длиной в 10 000 стадиев. От него через каждые 100 стадиев отходили прямые каналы шириной 100 футов, соединённые поперечными протоками — так образовалась сеть для орошения и сплава леса.</p>
+        <p class="text-slate-300 leading-relaxed">Земля давала два урожая в год: зимой — от дождей, летом — от каналов. Остров был богат лесом, слонами, плодами и «благовонными веществами».</p>
+      </div>
+      <div class="tab-pane hidden" data-pane="orichalcum">
+        <h3 class="serif text-3xl gold mb-4">Орихалк — металл атлантов</h3>
+        <p class="text-slate-300 leading-relaxed mb-4">Орихалк (греч. ὀρείχαλκος, «горная медь») — легендарный металл, который «добывался из недр земли в различных местах острова» и «по ценности уступал только золоту». К временам Платона он был известен «только по имени».</p>
+        <p class="text-slate-300 leading-relaxed mb-4">Современные учёные полагают, что речь идёт о природном сплаве меди с цинком — разновидности латуни. В 2015 году у берегов Сицилии, в обломках корабля VI века до н. э., нашли 39 слитков сплава меди, цинка, свинца, никеля и железа — пресса назвала их «орихалком».</p>
+        <p class="text-slate-300 leading-relaxed">На колонне из орихалка в центре храма были начертаны законы Посейдона, перед которой десять царей совершали клятву и суд.</p>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-10">
+      <div class="reveal card p-6"><div class="serif text-4xl gold">27</div><p class="text-sm text-slate-400 mt-1">стадиев — диаметр столицы с кольцами (≈ 5 км)</p></div>
+      <div class="reveal card p-6"><div class="serif text-4xl gold">50</div><p class="text-sm text-slate-400 mt-1">стадиев — длина канала к морю (≈ 9 км)</p></div>
+      <div class="reveal card p-6"><div class="serif text-4xl gold">10 000</div><p class="text-sm text-slate-400 mt-1">стадиев — периметр канала вокруг равнины</p></div>
+      <div class="reveal card p-6"><div class="serif text-4xl gold">60 000</div><p class="text-sm text-slate-400 mt-1">участков-наделов, с которых набиралась армия</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CULTURE -->
+<section id="culture" class="py-24 px-6 bg-gradient-to-b from-transparent via-[#062a44]/40 to-transparent">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal text-center mb-16">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Глава IV</p>
+      <h2 class="serif text-5xl md:text-6xl font-semibold">Общество, власть и обряды</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-8 mb-16">
+      <div class="reveal card p-8">
+        <h3 class="serif text-2xl gold mb-3">Десять царей</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">Посейдон и Клейто родили пять пар близнецов. Старший, Атлант, получил центральную часть и верховную власть — остров и океан названы его именем. Остальные девять правили своими уделами. Имена, по Платону: Атлант и Гадир (Евмел), Амферей и Евэмон, Мнесей и Автохтон, Эласипп и Местор, Азаэс и Диапреп.</p>
+      </div>
+      <div class="reveal card p-8">
+        <h3 class="serif text-2xl gold mb-3">Законы Посейдона</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">Цари не могли поднимать оружие друг против друга и обязаны были приходить на помощь, если кто-то пытался свергнуть царский род. Решения о войне принимались сообща, а казнить родственника царь не мог без согласия большинства. Законы были высечены на колонне из орихалка.</p>
+      </div>
+      <div class="reveal card p-8">
+        <h3 class="serif text-2xl gold mb-3">Обряд быка</h3>
+        <p class="text-slate-300 text-sm leading-relaxed">Каждые пять и шесть лет поочерёдно десять царей собирались в храме. Без оружия, лишь с палками и арканами, они ловили быка среди священного стада, закалывали над колонной, чтобы кровь стекала на письмена, и клялись судить по законам. Суд вершили ночью, в тёмно-синих одеждах, при погашенном огне.</p>
+      </div>
+    </div>
+    <div class="reveal">
+      <h3 class="serif text-3xl text-center mb-8">Жизнь острова — подробнее</h3>
+      <div class="max-w-3xl mx-auto space-y-3" id="accordion">
+        <div class="card"><button class="acc-btn w-full text-left px-6 py-4 flex justify-between items-center serif text-xl"><span>Хозяйство и природные богатства</span><span class="gold transition-transform">+</span></button><div class="accordion-content px-6 text-slate-300 text-sm leading-relaxed"><p class="pb-5">Остров добывал твёрдые и плавкие металлы, включая орихалк. Леса давали материал для строительства, равнина кормила «многочисленных домашних животных и диких зверей», включая слонов. Произрастали корни, травы, деревья, цветы и плоды «на радость и усладу». Платон особо отмечает виноград, зерно, бобовые и фрукты «с твёрдой кожурой».</p></div></div>
+        <div class="card"><button class="acc-btn w-full text-left px-6 py-4 flex justify-between items-center serif text-xl"><span>Архитектура и строительные материалы</span><span class="gold transition-transform">+</span></button><div class="accordion-content px-6 text-slate-300 text-sm leading-relaxed"><p class="pb-5">Камень добывали трёх цветов — белый, чёрный и красный — прямо из-под центрального острова и земляных колец, одновременно высекая в скалах доки. Здания строили либо однотонными, либо из пёстрого камня «для забавы». На кольцах располагались сады, гимнасии, ипподром шириной в стадий, казармы стражи и святилища богов.</p></div></div>
+        <div class="card"><button class="acc-btn w-full text-left px-6 py-4 flex justify-between items-center serif text-xl"><span>Царская стража и иерархия доверия</span><span class="gold transition-transml">+</span></button><div class="accordion-content px-6 text-slate-300 text-sm leading-relaxed"><p class="pb-5">Платон описывает трёхступенчатую охрану: бóльшая часть стражей жила на внешнем земляном кольце, наиболее верные — на внутреннем, ближе к акрополю, а самые надёжные — непосредственно в цитадели вокруг царских покоев. Эта деталь отражает тему доверия и политической стабильности, важную для философии Платона.</p></div></div>
+        <div class="card"><button class="acc-btn w-full text-left px-6 py-4 flex justify-between items-center serif text-xl"><span>Нравственное падение</span><span class="gold transition-transform">+</span></button><div class="accordion-content px-6 text-slate-300 text-sm leading-relaxed"><p class="pb-5">«Пока в них сохранялась божественная природа, они относились с презрением ко всему, кроме добродетели, не дорожили богатством… Но когда доля бога истощилась, а человеческий нрав возобладал, они оказались не в состоянии выносить своё богатство и утратили благопристойность». Для Платона это ключ ко всей истории — рассказ о гордыне (ὕβρις) и её наказании.</p></div></div>
+        <div class="card"><button class="acc-btn w-full text-left px-6 py-4 flex justify-between items-center serif text-xl"><span>Древние Афины — антагонист Атлантиды</span><span class="gold transition-transform">+</span></button><div class="accordion-content px-6 text-slate-300 text-sm leading-relaxed"><p class="pb-5">Мало кто помнит, что Платон описывает и «идеальные» праафины: государство с сословием стражей, общей собственностью, умеренностью и справедливостью — воплощение его «Государства». Афины в одиночку остановили атлантов и освободили порабощённые народы. Гибель Афин в том же катаклизме символична: даже совершенное государство подвластно космическим циклам.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline" class="py-24 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="reveal text-center mb-16">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Глава V</p>
+      <h2 class="serif text-5xl md:text-6xl font-semibold">Хронология мифа</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+      <p class="mt-6 text-slate-400">От платоновского диалога до современной поп-культуры</p>
+    </div>
+    <div class="timeline relative space-y-12" id="tl"></div>
+  </div>
+</section>
+
+<!-- THEORIES -->
+<section id="theories" class="py-24 px-6 bg-gradient-to-b from-transparent via-[#062a44]/40 to-transparent">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal text-center mb-16">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Глава VI</p>
+      <h2 class="serif text-5xl md:text-6xl font-semibold">Где искали Атлантиду</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+      <p class="mt-6 text-slate-400 max-w-3xl mx-auto">За 2400 лет предложено более 50 локаций. Ниже — самые известные гипотезы с оценкой их правдоподобности.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="theoryGrid"></div>
+    <div class="reveal mt-16 card p-8 md:p-10">
+      <h3 class="serif text-3xl gold mb-4">Что говорит наука</h3>
+      <div class="grid md:grid-cols-2 gap-8 text-slate-300 leading-relaxed text-sm">
+        <div>
+          <p class="mb-3">Подавляющее большинство историков и археологов считают Атлантиду <strong class="text-white">философским вымыслом</strong> Платона. Аргументы:</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li>До Платона об Атлантиде не упоминает ни один источник — ни Геродот, посещавший Египет, ни Гомер, ни Гесиод.</li>
+            <li>Аристотель, ученик Платона, по свидетельству Страбона, считал остров выдумкой: «тот, кто его придумал, тот и уничтожил».</li>
+            <li>Геология: в Атлантике нет следов затонувшего континента; океаническая кора принципиально отличается от континентальной.</li>
+            <li>9000 лет до Солона — это палеолит, когда ни Афин, ни Египта, ни кораблей не существовало.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="mb-3">Платон использовал Атлантиду как <strong class="text-white">учебный пример</strong> — иллюстрацию того, как идеальное государство (праафины) противостоит морской империи, развращённой богатством. Многие видят в этом аллюзию на:</p>
+          <ul class="list-disc pl-5 space-y-2">
+            <li>Персидские войны и Афинскую морскую державу, погибшую от собственной гордыни в Пелопоннесской войне;</li>
+            <li>Гибель острова Гелика в 373 г. до н. э., ушедшего под воду за одну ночь при жизни Платона;</li>
+            <li>Минойскую катастрофу — извержение Санторина, память о которой могла дойти через Египет;</li>
+            <li>Неудачную сицилийскую экспедицию афинян и нравы Сиракуз, где Платон бывал лично.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="py-24 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal text-center mb-16">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Глава VII</p>
+      <h2 class="serif text-5xl md:text-6xl font-semibold">Атлантида в культуре</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" id="cultureGrid"></div>
+    <div class="reveal mt-16">
+      <h3 class="serif text-3xl text-center mb-8">Цитаты об Атлантиде</h3>
+      <div class="relative card p-10 text-center min-h-[200px] flex flex-col justify-center">
+        <p id="quoteText" class="serif italic text-2xl text-slate-100 transition-opacity duration-500"></p>
+        <p id="quoteAuthor" class="gold mt-4 text-sm tracking-wide transition-opacity duration-500"></p>
+        <div class="flex justify-center gap-3 mt-6">
+          <button id="prevQ" class="w-10 h-10 border border-[#c9a24a]/50 gold hover:bg-[#c9a24a]/10">‹</button>
+          <button id="nextQ" class="w-10 h-10 border border-[#c9a24a]/50 gold hover:bg-[#c9a24a]/10">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOSSARY -->
+<section class="py-24 px-6 bg-gradient-to-b from-transparent via-[#062a44]/40 to-transparent">
+  <div class="max-w-5xl mx-auto">
+    <div class="reveal text-center mb-12">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Приложение</p>
+      <h2 class="serif text-5xl font-semibold">Глоссарий</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+    </div>
+    <input id="glossSearch" type="text" placeholder="Поиск по терминам…" class="reveal w-full max-w-md mx-auto block bg-[#062a44]/60 border border-[#c9a24a]/30 px-5 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-[#c9a24a] mb-8">
+    <div class="grid md:grid-cols-2 gap-4" id="glossary"></div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="py-24 px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="reveal text-center mb-12">
+      <p class="tracking-[.4em] uppercase text-xs gold mb-3">Испытание</p>
+      <h2 class="serif text-5xl font-semibold">Викторина: Знаток Атлантиды</h2>
+      <div class="divider w-40 mx-auto mt-6"></div>
+    </div>
+    <div class="reveal card p-8 md:p-10" id="quizBox"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-[#c9a24a]/20 py-12 px-6 text-center">
+  <div class="serif text-3xl gold tracking-widest mb-3">ΑΤΛΑΝΤΙΣ</div>
+  <p class="text-slate-400 text-sm max-w-xl mx-auto">Сайт создан в образовательных целях. Все описания столицы, общества и законов атлантов основаны на диалогах Платона «Тимей» и «Критий» в переводе С. С. Аверинцева.</p>
+  <p class="text-slate-600 text-xs mt-6">«Пусть же море хранит свои тайны» · <span id="year"></span></p>
+</footer>
+
+<button id="toTop" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-[#c9a24a] text-[#03111f] text-xl shadow-lg opacity-0 pointer-events-none transition">↑</button>
+
+<script>
+/* ===== Bubbles ===== */
+const bubbles = document.getElementById('bubbles');
+for (let i = 0; i < 25; i++) {
+  const b = document.createElement('div'); b.className = 'bubble';
+  const s = 6 + Math.random() * 22;
+  b.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${10+Math.random()*18}s;animation-delay:-${Math.random()*20}s`;
+  bubbles.appendChild(b);
+}
+/* ===== Nav ===== */
+const nav = document.getElementById('nav'), toTop = document.getElementById('toTop');
+window.addEventListener('scroll', () => {
+  const y = scrollY;
+  nav.classList.toggle('bg-[#03111f]/90', y > 60); nav.classList.toggle('backdrop-blur', y > 60); nav.classList.toggle('shadow-lg', y > 60);
+  toTop.style.opacity = y > 500 ? 1 : 0; toTop.style.pointerEvents = y > 500 ? 'auto' : 'none';
+});
+toTop.onclick = () => scrollTo({top:0,behavior:'smooth'});
+document.getElementById('burger').onclick = () => document.getElementById('mobileMenu').classList.toggle('hidden');
+document.querySelectorAll('#mobileMenu a').forEach(a => a.onclick = () => document.getElementById('mobileMenu').classList.add('hidden'));
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ===== Counters ===== */
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target = +el.dataset.count; let cur = 0; const step = target / 80;
+  const t = setInterval(() => { cur += step; if (cur >= target) { cur = target; clearInterval(t); } el.textContent = Math.floor(cur).toLocaleString('ru'); }, 20);
+});
+
+/* ===== Tabs ===== */
+document.querySelectorAll('.tab-btn').forEach(btn => btn.onclick = () => {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('hidden', p.dataset.pane !== btn.dataset.tab));
+});
+/* ===== Accordion ===== */
+document.querySelectorAll('.acc-btn').forEach(btn => btn.onclick = () => {
+  const c = btn.nextElementSibling, open = c.style.maxHeight;
+  document.querySelectorAll('.accordion-content').forEach(x => x.style.maxHeight = null);
+  document.querySelectorAll('.acc-btn span:last-child').forEach(s => s.textContent = '+');
+  if (!open) { c.style.maxHeight = c.scrollHeight + 'px'; btn.querySelector('span:last-child').textContent = '−'; }
+});
+
+/* ===== Timeline ===== */
+const tl = [
+  ['ок. 1600 до н. э.','Извержение Санторина','Минойская катастрофа — гибель Акротири и упадок критской цивилизации. Возможный исторический прототип легенды.'],
+  ['ок. 600 до н. э.','Солон в Египте','По Платону, афинский законодатель узнаёт историю от жрецов Саиса.'],
+  ['373 до н. э.','Гибель Гелики','Греческий город на берегу Коринфского залива уходит под воду за одну ночь — при жизни Платона.'],
+  ['ок. 360 до н. э.','«Тимей» и «Критий»','Платон создаёт диалоги — единственный первоисточник об Атлантиде.'],
+  ['ок. 300 до н. э.','Крантор','Первый комментатор Платона якобы видел в Египте колонны с записью истории. Сведения известны лишь через Прокла.'],
+  ['I в. н. э.','Страбон и Плиний','Аристотель, по Страбону, считал Атлантиду вымыслом. Миф обсуждается, но без энтузиазма.'],
+  ['1627','«Новая Атлантида» Бэкона','Фрэнсис Бэкон пишет утопию о научном обществе на острове Бенсалем.'],
+  ['1665','Карта Кирхера','Афанасий Кирхер публикует знаменитую карту Атлантиды посреди Атлантики (с югом вверху).'],
+  ['1882','Игнатиус Доннелли','«Атлантида: допотопный мир» — книга, превратившая миф в массовое увлечение и породившая псевдоисторию.'],
+  ['1888','Блаватская','Теософы объявляют атлантов «четвёртой коренной расой» — Атлантида входит в эзотерику.'],
+  ['1909','Гипотеза Фроста','К. Т. Фрост впервые связывает Атлантиду с минойским Критом.'],
+  ['1968','«Дорога Бимини»','Обнаружены подводные каменные блоки у Багам — энтузиасты объявили их руинами атлантов.'],
+  ['2001','Диснеевская «Атлантида»','Мультфильм «Атлантида: Затерянный мир» знакомит с легендой новое поколение.'],
+  ['2011','Проект в Доньяне','Команда Ричарда Фройнда ищет следы в болотах Южной Испании (документальный фильм National Geographic).'],
+  ['2018','«Аквамен»','Атлантида становится подводным королевством киновселенной DC.'],
+];
+document.getElementById('tl').innerHTML = tl.map((t,i) => `
+  <div class="reveal relative md:grid md:grid-cols-2 md:gap-12 items-center pl-10 md:pl-0">
+    <div class="absolute left-[8px] md:left-1/2 top-2 w-4 h-4 rounded-full bg-[#c9a24a] shadow-[0_0_15px_rgba(201,162,74,.8)] md:-translate-x-1/2"></div>
+    <div class="${i%2 ? 'md:col-start-2 md:text-left' : 'md:text-right'}">
+      <div class="card p-6 inline-block text-left w-full">
+        <p class="gold text-sm tracking-wider">${t[0]}</p>
+        <h4 class="serif text-2xl mt-1">${t[1]}</h4>
+        <p class="text-slate-400 text-sm mt-2 leading-relaxed">${t[2]}</p>
+      </div>
+    </div>
+  </div>`).join('');
+
+/* ===== Theories ===== */
+const theories = [
+  {icon:'🌋',name:'Санторин / Минойский Крит',where:'Эгейское море',score:4,txt:'Самая уважаемая гипотеза. Извержение вулкана Тера ок. 1600 г. до н. э. уничтожило развитую морскую цивилизацию с культом быка. Если принять, что Солон ошибся в десять раз (900 вместо 9000 лет), даты совпадают.'},
+  {icon:'🏜',name:'Доньяна / Тартесс',where:'Южная Испания',score:3,txt:'Болота у устья Гвадалквивира — территория легендарного царства Тартесс, находившегося «за Геракловыми столпами». Спутниковые снимки показывают концентрические структуры; местность страдала от цунами.'},
+  {icon:'👁',name:'Око Сахары (Ришат)',where:'Мавритания',score:1,txt:'Геологическая структура диаметром 40 км с концентрическими кольцами, популярная в интернете. Геологи объясняют её эрозией купола; никаких следов человеческого поселения не найдено.'},
+  {icon:'🏝',name:'Азорские острова',where:'Атлантика',score:1,txt:'Вершины затонувшего континента, по мысли Доннелли и Кирхера. Опровергнуто теорией тектоники плит: Срединно-Атлантический хребет растёт, а не тонет.'},
+  {icon:'🧊',name:'Антарктида',where:'Южный полюс',score:1,txt:'Теория «сдвига земной коры» Чарльза Хэпгуда, популяризованная Грэмом Хэнкоком. Утверждается, что Антарктида была свободна ото льда 12 000 лет назад — геология это полностью исключает.'},
+  {icon:'🗿',name:'Мальта',where:'Средиземное море',score:2,txt:'Мегалитические храмы Мальты — древнейшие свободностоящие сооружения на Земле (3600 г. до н. э.). Между Мальтой и Сицилией был затопленный мост суши.'},
+  {icon:'⛵',name:'Гелика',where:'Пелопоннес',score:3,txt:'Не локация, а прототип: город, ушедший под воду при землетрясении 373 г. до н. э. Платон, несомненно, знал об этой катастрофе, когда писал «Тимея».'},
+  {icon:'🌊',name:'Доггерленд',where:'Северное море',score:2,txt:'Реальная суша между Британией и Европой, затопленная после ледникового периода (ок. 6200 г. до н. э., оползень Стурегга). Люди там жили, но цивилизации не было.'},
+  {icon:'🐚',name:'Куба / Багамы',where:'Карибы',score:1,txt:'«Дорога Бимини» и подводные структуры у Кубы. Геологи определили «дорогу» как естественные пляжные породы, расколотые на блоки.'},
+];
+document.getElementById('theoryGrid').innerHTML = theories.map(t => `
+  <div class="reveal card p-6 flex flex-col">
+    <div class="flex items-start justify-between"><span class="text-3xl">${t.icon}</span><span class="text-xs uppercase tracking-wider text-slate-500">${t.where}</span></div>
+    <h4 class="serif text-2xl mt-3">${t.name}</h4>
+    <p class="text-slate-400 text-sm mt-2 leading-relaxed flex-1">${t.txt}</p>
+    <div class="mt-4 flex items-center gap-2 text-xs text-slate-500">Правдоподобие: <span class="gold tracking-widest">${'●'.repeat(t.score)}${'○'.repeat(5-t.score)}</span></div>
+  </div>`).join('');
+
+/* ===== Culture ===== */
+const cult = [
+  ['📚','Жюль Верн','«20 000 льё под водой» (1870): капитан Немо показывает Аронаксу руины Атлантиды на дне океана.'],
+  ['📖','Фрэнсис Бэкон','«Новая Атлантида» (1627) — утопия об учёном обществе, предвосхитившая Королевское общество.'],
+  ['🎬','Дисней','«Атлантида: Затерянный мир» (2001) — стимпанк-экспедиция 1914 года с языком, созданным Марком Окрандом.'],
+  ['🦸','DC Comics','Аквамен — король Атлантиды, подводной сверхцивилизации, с 1941 года.'],
+  ['📺','Stargate Atlantis','Город-корабль Древних в галактике Пегас — сериал 2004–2009 гг.'],
+  ['🎮','Assassin\'s Creed Odyssey','Дополнение «Судьба Атлантиды» переносит игрока в город Ису.'],
+  ['🎼','Мануэль де Фалья','Сценическая кантата «Атлантида» (1961) по поэме Жасинта Вердагера.'],
+  ['✍','Алексей Толстой','«Аэлита» (1923): марсиане — потомки атлантов, бежавших с Земли.'],
+];
+document.getElementById('cultureGrid').innerHTML = cult.map(c => `<div class="reveal card p-6"><div class="text-3xl mb-3">${c[0]}</div><h4 class="serif text-xl gold">${c[1]}</h4><p class="text-slate-400 text-sm mt-2 leading-relaxed">${c[2]}</p></div>`).join('');
+
+/* ===== Quotes ===== */
+const quotes = [
+  ['Вы, эллины, вечно остаётесь детьми, и нет среди эллинов старца.','Египетский жрец — Солону, «Тимей»'],
+  ['Тот, кто придумал Атлантиду, тот её и уничтожил.','Аристотель (по Страбону)'],
+  ['Атлантида — не место на карте, а состояние человеческого воображения.','Современный историк'],
+  ['Миф об Атлантиде — это первая в истории научная фантастика.','Исследователи творчества Платона'],
+  ['Море вернуло нам всё, кроме Атлантиды.','Народная мудрость моряков'],
+];
+let qi = 0; const qt = document.getElementById('quoteText'), qa = document.getElementById('quoteAuthor');
+function showQ() { qt.style.opacity = 0; qa.style.opacity = 0; setTimeout(() => { qt.textContent = '«' + quotes[qi][0] + '»'; qa.textContent = '— ' + quotes[qi][1]; qt.style.opacity = 1; qa.style.opacity = 1; }, 300); }
+document.getElementById('nextQ').onclick = () => { qi = (qi+1)%quotes.length; showQ(); };
+document.getElementById('prevQ').onclick = () => { qi = (qi-1+quotes.length)%quotes.length; showQ(); };
+showQ(); setInterval(() => { qi = (qi+1)%quotes.length; showQ(); }, 8000);
+
+/* ===== Glossary ===== */
+const gloss = [
+  ['Акрополь','Центральный холм столицы, где стояли храм Посейдона и царский дворец.'],
+  ['Геракловы столпы','Скалы по обе стороны Гибралтарского пролива; Атлантида лежала «перед» ними.'],
+  ['Клейто','Смертная дочь Эвенора и Левкиппы, возлюбленная Посейдона, мать десяти царей.'],
+  ['Критий','Платоновский диалог с подробным описанием острова; также имя рассказчика.'],
+  ['Орихалк','Легендарный металл, «уступающий ценностью лишь золоту»; вероятно, природная латунь.'],
+  ['Плетр','Греческая мера длины ≈ 30,8 м; 100 греческих футов.'],
+  ['Посейдон','Бог морей, основатель и покровитель Атлантиды.'],
+  ['Саис','Город в дельте Нила, где жрецы храма Нейт поведали Солону историю.'],
+  ['Солон','Афинский законодатель и поэт (ок. 640–560 до н. э.), первый эллин, узнавший об Атлантиде.'],
+  ['Стадий','Мера длины ≈ 185 м; диаметр столицы — 27 стадиев.'],
+  ['Тимей','Диалог Платона, где история Атлантиды впервые упоминается кратко.'],
+  ['Триера','Боевой корабль с тремя рядами вёсел; флот атлантов — 1200 триер.'],
+  ['Атлант','Старший сын Посейдона, первый верховный царь; от него название острова и океана.'],
+  ['Гадир','Брат-близнец Атланта; его удел — область Гадеса (ныне Кадис в Испании).'],
+  ['Гибрис (ὕβρις)','Гордыня, дерзость против богов — причина гибели атлантов.'],
+  ['Доннелли','Игнатиус Доннелли, американский конгрессмен, автор книги 1882 г., основатель «атлантологии».'],
+];
+const gBox = document.getElementById('glossary');
+function renderGloss(f='') { gBox.innerHTML = gloss.filter(g => (g[0]+g[1]).toLowerCase().includes(f.toLowerCase())).map(g => `<div class="card p-5"><h4 class="serif text-xl gold">${g[0]}</h4><p class="text-slate-400 text-sm mt-1">${g[1]}</p></div>`).join('') || '<p class="text-slate-500 col-span-2 text-center">Ничего не найдено</p>'; }
+renderGloss(); document.getElementById('glossSearch').oninput = e => renderGloss(e.target.value);
+
+/* ===== Quiz ===== */
+const quiz = [
+  {q:'В каких диалогах Платон описывает Атлантиду?',a:['«Государство» и «Законы»','«Тимей» и «Критий»','«Федон» и «Пир»','«Апология» и «Горгий»'],c:1},
+  {q:'Кто из богов считался основателем Атлантиды?',a:['Зевс','Аполлон','Посейдон','Гефест'],c:2},
+  {q:'Сколько царей правило Атлантидой?',a:['Три','Семь','Десять','Двенадцать'],c:2},
+  {q:'Как назывался легендарный металл атлантов?',a:['Адамант','Орихалк','Электрум','Мифрил'],c:1},
+  {q:'За какое время, по Платону, погибла Атлантида?',a:['За сто лет','За один год','За одни сутки','За мгновение'],c:2},
+  {q:'От кого Солон узнал историю Атлантиды?',a:['От дельфийского оракула','От египетских жрецов','От финикийских купцов','От персидских магов'],c:1},
+  {q:'Какое государство победило атлантов?',a:['Спарта','Египет','Троя','Древние Афины'],c:3},
+  {q:'Сколько водных колец окружало центральный остров столицы?',a:['Одно','Два','Три','Пять'],c:2},
+  {q:'Какой древний философ считал Атлантиду вымыслом?',a:['Сократ','Аристотель','Пифагор','Гераклит'],c:1},
+  {q:'Какое животное приносили в жертву цари при клятве?',a:['Коня','Дельфина','Быка','Орла'],c:2},
+];
+let qIdx = 0, score = 0; const box = document.getElementById('quizBox');
+function renderQuiz() {
+  if (qIdx >= quiz.length) {
+    const r = score === quiz.length ? 'Вы — истинный царь Атлантиды!' : score >= 7 ? 'Жрец Посейдона — отличный результат!' : score >= 4 ? 'Достойный мореход. Есть куда расти.' : 'Волны ещё хранят от вас свои тайны…';
+    box.innerHTML = `<div class="text-center"><div class="serif text-7xl gold">${score}/${quiz.length}</div><p class="serif text-2xl mt-4">${r}</p><button id="restart" class="mt-8 px-8 py-3 bg-[#c9a24a] text-[#03111f] font-semibold">Пройти ещё раз</button></div>`;
+    document.getElementById('restart').onclick = () => { qIdx = 0; score = 0; renderQuiz(); }; return;
+  }
+  const item = quiz[qIdx];
+  box.innerHTML = `<div class="flex justify-between text-xs uppercase tracking-wider text-slate-500 mb-4"><span>Вопрос ${qIdx+1} из ${quiz.length}</span><span>Очки: ${score}</span></div>
+    <div class="h-1 bg-[#062a44] mb-6"><div class="h-full bg-[#c9a24a] transition-all" style="width:${qIdx/quiz.length*100}%"></div></div>
+    <h3 class="serif text-2xl md:text-3xl mb-6">${item.q}</h3>
+    <div class="space-y-3">${item.a.map((o,i) => `<button class="ans w-full text-left px-5 py-3 border border-[#c9a24a]/30 hover:border-[#c9a24a] hover:bg-[#c9a24a]/10 transition" data-i="${i}">${o}</button>`).join('')}</div>`;
+  box.querySelectorAll('.ans').forEach(b => b.onclick = () => {
+    const i = +b.dataset.i; box.querySelectorAll('.ans').forEach(x => x.disabled = true);
+    if (i === item.c) { b.classList.add('bg-emerald-600/40','border-emerald-400'); score++; }
+    else { b.classList.add('bg-red-600/40','border-red-400'); box.querySelector(`[data-i="${item.c}"]`).classList.add('bg-emerald-600/40','border-emerald-400'); }
+    setTimeout(() => { qIdx++; renderQuiz(); }, 1100);
+  });
+}
+renderQuiz();
+
+/* ===== Reveal on scroll ===== */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
